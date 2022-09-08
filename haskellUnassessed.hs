@@ -135,3 +135,40 @@ substring x string
 -- List comprehensions
 
 findAll x t = [y' | (x', y') <- t, x' == x]
+
+remove :: Eq a => a -> [(a, b)] -> [(a, b)] 
+remove x pairs
+    = [(k, v) | (k, v) <- pairs, x /= k]
+
+quicksort :: (Ord a) => [a] -> [a]
+quicksort [] = []
+quicksort (x:xs) =
+    let smallerSorted = quicksort [a | a <- xs, a <= x]
+        biggerSorted = quicksort [a | a <- xs, a > x]
+    in smallerSorted ++ [x] ++ biggerSorted
+
+-- using filter
+quicksort' :: (Ord a) => [a] -> [a]
+quicksort' [] = []
+quicksort' (x:xs) =
+    let smallerSorted = quicksort'(filter (<= x) xs)
+        biggerSorted = quicksort' (filter (>x) xs)
+    in smallerSorted ++ [x] ++ biggerSorted
+
+allSplits :: [a] -> [([a], [a])]
+allSplits list
+    = [splitAt n list | n <- [1..length list - 1]]
+
+prefixes :: [t] -> [[t]]
+prefixes [] = [[]]
+prefixes (x:xs) = [x] : [x:prefs | prefs <- prefixes xs]
+
+substrings :: String -> [String]
+substrings [] = [[]]
+substrings str = [i | t <- tails str, i <- tail (inits t)]
+
+perms :: [a] -> [[a]]
+perms [] = [[]]
+perms xs = [x : ps | x <- xs, ps <- perms (xs \\ [x])]
+
+-- routes :: Int -> Int -> [(Int, Int)] -> [[Int]]
