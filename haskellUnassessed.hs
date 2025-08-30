@@ -167,8 +167,17 @@ substrings :: String -> [String]
 substrings [] = [[]]
 substrings str = [i | t <- tails str, i <- tail (inits t)]
 
-perms :: [a] -> [[a]]
+perms :: (Eq a) => [a] -> [[a]]
 perms [] = [[]]
 perms xs = [x : ps | x <- xs, ps <- perms (xs \\ [x])]
 
 -- routes :: Int -> Int -> [(Int, Int)] -> [[Int]]
+
+-- Higher order functions
+
+depunctuate :: String -> String
+depunctuate str 
+    = filter p str
+    where
+        p c = not (elem c ".,:")
+
